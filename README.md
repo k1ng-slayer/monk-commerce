@@ -139,14 +139,14 @@ Future coupon types can be implemented by adding new services and extending the 
 
 ## Running the Project
 
-1. Install dependencies
-   npm install
+1. Install dependencies -
+   _npm install_
 
-2. Configure environment variables
+2. Configure environment variables.
    Set Port & MongoDB connection string in `.env`
 
 3. Start the server
-   npm run dev
+   _npm run dev_
 
 4. Server runs on (if PORT=3000)
    [http://localhost:3000](http://localhost:3000)
