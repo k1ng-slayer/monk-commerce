@@ -151,4 +151,4 @@ Future coupon types can be implemented by adding new services and extending the 
 4. Server runs on (if PORT=3000)
    [http://localhost:3000](http://localhost:3000)
 
-[https://anurupm049-2903959.postman.co/workspace/Anurup's-Team's-Workspace~7d447397-5e05-41c8-80a8-87bcacd3250c/collection/51376700-a7f84469-bb81-4041-a4b5-bf5a53456cd6?action=share&creator=51376700](Postman)
+[Postman](https://anurupm049-2903959.postman.co/workspace/Anurup's-Team's-Workspace~7d447397-5e05-41c8-80a8-87bcacd3250c/collection/51376700-a7f84469-bb81-4041-a4b5-bf5a53456cd6?action=share&source=copy-link&creator=51376700)
