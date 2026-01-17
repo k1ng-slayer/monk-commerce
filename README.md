@@ -46,6 +46,44 @@ Implementation Details
 - Discount is calculated per product (quantity × price)
 - Non-eligible products receive no discount
 
+### 3. BxGy Coupons (Buy X Get Y)
+
+Description
+Implements Buy X Get Y coupons with repetition limits, restricted to a single buy product and a single get product.
+
+Example
+
+- Buy 2 units of Product A
+- Get 1 unit of Product B free
+- Repetition limit: 2
+
+Behavior
+
+- Cart must contain the buy product with sufficient quantity
+- Coupon application count is calculated as:
+  floor(buy_quantity / required_buy_quantity)
+- Repetition limit is enforced
+- Free items are applied as discounts, not by modifying quantities
+- Free quantity is capped by cart availability
+
+---
+
+## Important Design Constraint (BxGy)
+
+To avoid ambiguous interpretations and complex edge cases, the following constraint is enforced in the implementation:
+
+- BxGy coupons support exactly one buy product and one get product
+
+This design decision eliminates uncertainty around:
+
+- Pooling multiple buy products
+- Per-product minimum enforcement
+- Partial fulfillment across multiple buy rules
+
+The constraint ensures predictable, explainable, and maintainable behavior.
+
+---
+
 ## API Endpoints
 
 ### Coupon CRUD
@@ -108,34 +146,34 @@ This design allows new coupon types to be added with minimal schema changes.
 ## Limitations
 
 - Coupon stacking is not supported
-- BxGy coupons are not implemented
-- No user-specific coupon usage limits
-- No concurrency handling for coupon usage
-- No tax, shipping, or currency conversions
-- No coupon usage count or redemption tracking
+- BxGy coupons are limited to one buy and one get product
+- Cheapest-product selection for free items is not implemented
+- Partial free quantity distribution is not supported
+- No per-user coupon usage limits
+- No coupon redemption tracking
+- No tax or shipping calculations
 
 ## Unimplemented Cases
 
-The following cases were identified but not implemented due to time constraints:
+The following cases were identified but intentionally not implemented:
 
-- Buy X Get Y (BxGy) coupons with repetition limits
-- Partial BxGy fulfillment scenarios
-- Coupon priority resolution when multiple coupons apply
+- Multiple buy products in BxGy coupons
+- Pooling buy quantities across different products
+- Coupon priority resolution
 - Maximum discount caps
-- Coupon usage limits per user
-- Coupon usage history and analytics
-- Timezone-aware coupon expiration handling
-- Combining cart-wise and product-wise discounts
+- User-specific coupon restrictions
+- Timezone-aware coupon expiration logic
+- Concurrent coupon redemption handling
+
+These were documented instead of partially implemented to maintain correctness and clarity.
 
 ## Extensibility
 
 The system is designed with extensibility in mind:
 
 - Coupon logic is separated into services
-- Coupon type handling is centralized
-- New coupon types can be added without modifying existing ones
-
-Future coupon types can be implemented by adding new services and extending the evaluation logic.
+- Coupon type handling is explicit
+- New coupon types can be added with minimal changes
 
 ## Running the Project
 

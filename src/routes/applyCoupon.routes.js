@@ -4,6 +4,7 @@ import Coupon from "../models/Coupon.js";
 import { calculateCartTotal } from "../services/cartWise.service.js";
 import { applyCartWiseDiscount } from "../services/applyCartWise.service.js";
 import { applyProductWiseCoupon } from "../services/productWise.service.js";
+import { applyBxGyCoupon } from "../services/bxgy.service.js";
 
 const router = express.Router();
 
@@ -13,6 +14,16 @@ const router = express.Router();
 //       { product_id: 1, quantity: 6, price: 50 },
 //       { product_id: 2, quantity: 3, price: 30 },
 //       { product_id: 3, quantity: 2, price: 25 },
+//     ],
+//   },
+// };
+
+// bxgy coupon testing cart
+// {
+//   cart: {
+//     items: [
+//       { product_id: 1, quantity: 4, price: 15 },
+//       { product_id: 3, quantity: 2, price: 10 },
 //     ],
 //   },
 // };
@@ -43,6 +54,16 @@ router.post("/:id", async (req, res) => {
 
   if (coupon.type === "product-wise") {
     const updatedCart = applyProductWiseCoupon(coupon, cart);
+    return res.json({ updated_cart: updatedCart });
+  }
+
+  if (coupon.type === "bxgy") {
+    const updatedCart = applyBxGyCoupon(coupon, cart);
+
+    if (!updatedCart) {
+      return res.status(400).json({ error: "Coupon conditions not met" });
+    }
+
     return res.json({ updated_cart: updatedCart });
   }
 

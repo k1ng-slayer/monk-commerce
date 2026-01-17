@@ -1,9 +1,11 @@
 import express from "express";
+
 import Coupon from "../models/Coupon.js";
 import {
   calculateCartTotal,
   applyCartWiseCoupon,
 } from "../services/cartWise.service.js";
+import { applyBxGyCoupon } from "../services/bxgy.service.js";
 
 const router = express.Router();
 
@@ -13,6 +15,16 @@ const router = express.Router();
 //       { product_id: 1, quantity: 6, price: 50 },
 //       { product_id: 2, quantity: 3, price: 30 },
 //       { product_id: 3, quantity: 2, price: 25 },
+//     ],
+//   },
+// };
+
+// bxgy coupon testing cart
+// {
+//   cart: {
+//     items: [
+//       { product_id: 1, quantity: 4, price: 15 },
+//       { product_id: 3, quantity: 2, price: 10 },
 //     ],
 //   },
 // };
@@ -56,6 +68,15 @@ router.post("/", async (req, res) => {
           coupon_id: coupon._id,
           type: coupon.type,
           discount,
+        });
+      }
+    } else if (coupon.type === "bxgy") {
+      const result = applyBxGyCoupon(coupon, cart);
+      if (result) {
+        applicableCoupons.push({
+          coupon_id: coupon._id,
+          type: coupon.type,
+          discount: result.total_discount,
         });
       }
     } else continue;

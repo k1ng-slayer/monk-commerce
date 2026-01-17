@@ -5,19 +5,28 @@ import Coupon from "../models/Coupon.js";
 const router = express.Router();
 
 // {
-//   type: "cart-wise",
-//   details: {
-//     threshold: 100,
-//     discount: 10,
+//   "type": "cart-wise",
+//   "details": {
+//     "threshold": 100,
+//     "discountPercentage": 10,
 //   },
 // };
 
 // {
 //   "type": "product-wise" ,
 //   "details": {
-//     "product_id": 1 ,
-//      "discount": 20
+//     "productIds": [2] ,
+//      "discountPercentage": 20
 //   }
+// };
+
+// {
+//   "type": "bxgy",
+//   "details": {
+//     "buy_products": [{ "product_id": 1, "quantity": 2 }],
+//     "get_products": [{ "product_id": 3, "quantity": 1 }],
+//     "repetition_limit": 2,
+//   },
 // };
 
 router.post("/", async (req, res) => {
